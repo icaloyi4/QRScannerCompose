@@ -55,7 +55,7 @@ fun HomeMenu(navController: NavController){
     LazyVerticalGrid (columns = GridCells.Adaptive(minSize = 100.dp)
     ) {
         items(itemsMenu){item->
-        MenuItemComponent(icon = item.icon, title = item.title, onClick = {
+        MenuItemComponent(icon = item.icon!!, title = item.title, onClick = {
             navController.navigate(item.screen_route)
         })
     }
