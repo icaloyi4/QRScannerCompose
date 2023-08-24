@@ -16,17 +16,20 @@ import androidx.navigation.NavController
 import co.id.mii.qrscanner.core.shared.component.BottomNav
 import co.id.mii.qrscanner.features.home.view.component.HeaderComponen
 import co.id.mii.qrscanner.features.home.view.component.HomeMenu
+import co.id.mii.qrscanner.features.home.viewmodel.HomeViewModel
 import co.id.mii.qrscanner.ui.theme.titleLarge
+import org.koin.androidx.compose.koinViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(navController: NavController?=null){
+     val vm : HomeViewModel = koinViewModel()
     Scaffold(bottomBar = {
         navController?.let { BottomNav(navController = it) }
     }) {
 
         Column {
-            HeaderComponen()
+            HeaderComponen(vm)
             Divider()
             Text(modifier = Modifier.padding(20.dp),text = "Menu", style = titleLarge)
             navController?.let { it1 -> HomeMenu(navController = it1) }

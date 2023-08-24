@@ -34,12 +34,14 @@ import androidx.navigation.NavController
 import co.id.mii.qrscanner.core.routes.RoutesModel
 import co.id.mii.qrscanner.features.payment.model.TransactionModel
 import co.id.mii.qrscanner.features.payment.view.components.PreviewViewComposable
+import co.id.mii.qrscanner.features.payment.viewmodel.PaymentViewModel
 import co.id.mii.qrscanner.ui.theme.titleLarge
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionRequired
 import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.gson.Gson
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalPermissionsApi::class)
 @androidx.camera.core.ExperimentalGetImage
@@ -47,6 +49,7 @@ import com.google.gson.Gson
 @Composable
 fun PaymentScreen(navController: NavController? = null) {
     val permissionState = rememberPermissionState(permission = Manifest.permission.CAMERA)
+    val mv : PaymentViewModel = koinViewModel()
     Surface(modifier = Modifier.fillMaxSize()) {
 
         CameraPermission(permissionState = permissionState)
@@ -54,11 +57,12 @@ fun PaymentScreen(navController: NavController? = null) {
 
             PreviewViewComposable(){
 //                Toast.makeText(context, "Barcode found", Toast.LENGTH_SHORT).show()
-                navController?.navigate("${RoutesModel.screeninfo}/${Gson().toJson(TransactionModel(idTrans = "1234", value = 10000000.0, merchant = "Coba Coba", bank = "BNI", isSucces = true))}"){
-                    popUpTo(RoutesModel.home){
-                        inclusive = true
-                    }
-                }
+//                navController?.navigate("${RoutesModel.screeninfo}/${TransactionModel(idTrans = "1234", value = 10000000.0, merchant = "Coba Coba", bank = "BNI", isSucces = true).toString()}"){
+//                    popUpTo(RoutesModel.home){
+//                        inclusive = true
+//                    }
+//                }
+                navController?.let { it1 -> mv.payQR(it, it1) }
             }
 
             Column(

@@ -78,6 +78,18 @@ dependencies {
 
     implementation("com.google.code.gson:gson:2.10.1")
 
+    // Koin for Android
+    val koin_version = "3.1.6"
+    implementation("io.insert-koin:koin-android:$koin_version")
+    implementation("io.insert-koin:koin-core:$koin_version")
+    implementation("io.insert-koin:koin-androidx-compose:3.4.1")
+
+    //API
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:converter-scalars:2.4.0")
+    implementation("com.google.code.gson:gson:2.10.1")
+
     implementation("androidx.navigation:navigation-compose:2.6.0")
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")

@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import co.id.mii.qrscanner.core.routes.RoutesModel
+import co.id.mii.qrscanner.core.utils.numberFormat
 import co.id.mii.qrscanner.features.payment.model.TransactionModel
 import co.id.mii.qrscanner.ui.theme.titleLarge
 import kotlinx.coroutines.delay
@@ -54,7 +55,7 @@ fun ScreenInfoPayment(navController: NavController?,data : TransactionModel?) {
         .size(75.dp)
         .padding(10.dp)
         .clickable {
-            navController?.navigate(RoutesModel.home){
+            navController?.navigate(RoutesModel.home) {
                 popUpTo(RoutesModel.home)
             }
         }){
@@ -72,23 +73,28 @@ fun BodyTransaction(data : TransactionModel?){
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (data?.isSucces?:false) Icon(
-            imageVector = Icons.Rounded.CheckCircle,
-            contentDescription = "Succes",
-            modifier = Modifier.size(150.dp),
-            tint = Color.Green
-        ) else {
+        if (data?.isSucces?:false) {
+            Icon(
+                imageVector = Icons.Rounded.CheckCircle,
+                contentDescription = "Succes",
+                modifier = Modifier.size(150.dp),
+                tint = Color.Green
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(text = "${data?.bank?:"-"}-${data?.idTrans?:"-"}")
+            Text(text = data?.merchant?:"-")
+            Text(text = "Rp. ${numberFormat(data?.value?:0.0) }", style = titleLarge)
+        } else {
             Icon(
                 imageVector = Icons.Rounded.Clear,
-                contentDescription = "Succes",
+                contentDescription = "error",
                 modifier = Modifier.size(150.dp),
                 tint = Color.Red
             )
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(text = "invalid Payment")
         }
-        Spacer(modifier = Modifier.height(10.dp))
-        Text(text = "${data?.bank?:"-"}-${data?.idTrans?:"-"}")
-        Text(text = data?.merchant?:"-")
-        Text(text = "Rp. ${data?.value?:"-"}", style = titleLarge)
+
 
     }
 }

@@ -27,10 +27,12 @@ import com.google.mlkit.vision.common.InputImage
                     if (barcodes.size > 0) {
                         barcodes.first().rawValue?.let { it1 -> onSuccess(it1) }
                     }
+                    print(barcodes)
                 }
                 .addOnFailureListener {
                     // Task failed with an exception
                     // ...
+                    print(it.message)
                     onFailure()
                 }
         }
