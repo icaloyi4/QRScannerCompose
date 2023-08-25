@@ -3,6 +3,7 @@ package co.id.mii.qrscanner.core.shared.component
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +24,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.Clear
+import androidx.compose.material.icons.sharp.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -119,6 +121,13 @@ fun BottomNav(navController: NavController) {
     }
 
 
+}
+
+@Composable
+fun CloseBtnRight(onClose : ()->Unit){
+    Box(contentAlignment = Alignment.TopEnd, modifier = Modifier.padding(10.dp)) {
+        Icon(imageVector = Icons.Sharp.Close, contentDescription = null, tint = Color.Black, modifier = Modifier.clickable { onClose() })
+    }
 }
 
 

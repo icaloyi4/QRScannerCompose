@@ -83,6 +83,7 @@ dependencies {
     implementation("io.insert-koin:koin-android:$koin_version")
     implementation("io.insert-koin:koin-core:$koin_version")
     implementation("io.insert-koin:koin-androidx-compose:3.4.1")
+    implementation("io.coil-kt:coil-compose:2.4.0")
 
     //API
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

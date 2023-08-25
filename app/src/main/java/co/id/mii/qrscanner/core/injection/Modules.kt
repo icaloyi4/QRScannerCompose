@@ -1,6 +1,5 @@
 package co.id.mii.qrscanner.core.injection
 
-import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import co.id.mii.qrscanner.core.database.AppDatabase
@@ -12,6 +11,8 @@ import co.id.mii.qrscanner.features.home.repository.HomeRepository
 import co.id.mii.qrscanner.features.home.viewmodel.HomeViewModel
 import co.id.mii.qrscanner.features.payment.repository.PaymentRepository
 import co.id.mii.qrscanner.features.payment.viewmodel.PaymentViewModel
+import co.id.mii.qrscanner.features.promo.repository.PromoRepository
+import co.id.mii.qrscanner.features.promo.viewmodel.PromoViewModel
 import co.id.mii.qrscanner.features.transaction.repository.TransactionRepository
 import co.id.mii.qrscanner.features.transaction.viewmodel.TransactionViewModel
 import com.google.gson.FieldNamingPolicy
@@ -19,7 +20,6 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.Cache
 import okhttp3.OkHttpClient
-import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -30,6 +30,7 @@ val viewModelModule = module {
     viewModel { HomeViewModel(get()) }
     viewModel { PaymentViewModel(get()) }
     viewModel { TransactionViewModel(get()) }
+    viewModel { PromoViewModel(get()) }
 }
 
 
@@ -49,7 +50,7 @@ val dataStoreModule = module {
 }
 
 val netModule = module {
-    fun provideCache(application: Application): Cache {
+    fun provideCache(application: Context): Cache {
         val cacheSize = 10 * 1024 * 1024
         return Cache(application.cacheDir, cacheSize.toLong())
     }
@@ -75,7 +76,7 @@ val netModule = module {
             .build()
     }
 
-    single { provideCache(androidApplication()) }
+    single { provideCache(androidContext()) }
     single { provideHttpClient(get()) }
     single { provideGson() }
     single { provideRetrofit(get(), get()) }
@@ -118,4 +119,10 @@ val repositoryModule = module {
     }
 
     single { provideTransactionRepository( get()) }
+
+    fun providePromoRepository(apiClient: ApiClient): PromoRepository {
+        return PromoRepository(apiClient)
+    }
+
+    single { providePromoRepository( get()) }
 }

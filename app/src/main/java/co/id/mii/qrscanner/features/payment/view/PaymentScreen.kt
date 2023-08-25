@@ -32,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import co.id.mii.qrscanner.core.routes.RoutesModel
+import co.id.mii.qrscanner.core.shared.component.CloseBtnRight
 import co.id.mii.qrscanner.features.payment.model.TransactionModel
 import co.id.mii.qrscanner.features.payment.view.components.PreviewViewComposable
 import co.id.mii.qrscanner.features.payment.viewmodel.PaymentViewModel
@@ -110,14 +111,9 @@ fun PaymentScreen(navController: NavController? = null) {
                 }
             }
         }
-        Box (modifier = Modifier
-            .size(25.dp)
-            .padding(10.dp)
-            .clickable {
-                navController?.popBackStack()
-            }){
-            Icon(imageVector = Icons.Sharp.Close, contentDescription = "Close", )
-        }
+        CloseBtnRight(onClose = {
+            navController?.popBackStack()
+        })
 
 
 

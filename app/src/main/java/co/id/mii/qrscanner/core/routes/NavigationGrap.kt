@@ -11,6 +11,10 @@ import co.id.mii.qrscanner.features.payment.model.TransactionModel
 import co.id.mii.qrscanner.features.payment.model.TransactionTypeArgs
 import co.id.mii.qrscanner.features.payment.view.PaymentScreen
 import co.id.mii.qrscanner.features.payment.view.components.ScreenInfoPayment
+import co.id.mii.qrscanner.features.promo.model.BankPromoResponse
+import co.id.mii.qrscanner.features.promo.model.BankPromoTypeArgs
+import co.id.mii.qrscanner.features.promo.view.PromoScreen
+import co.id.mii.qrscanner.features.promo.view.component.PromoDetailScreen
 import co.id.mii.qrscanner.features.transaction.view.TransactionScreen
 import com.google.gson.Gson
 
@@ -20,6 +24,9 @@ fun NavigationGraph(navController: NavHostController) {
     NavHost(navController = navController, startDestination = RoutesModel.home) {
         composable(RoutesModel.home) {
             HomeScreen(navController)
+        }
+        composable(RoutesModel.promo) {
+            PromoScreen(navController)
         }
         composable(RoutesModel.payment) {
             PaymentScreen(navController)
@@ -36,6 +43,16 @@ fun NavigationGraph(navController: NavHostController) {
             ScreenInfoPayment(
                 navController,data = it.arguments?.getString("transaction")
                     ?.let { data -> Gson().fromJson(data, TransactionModel::class.java) })
+        }
+        composable(route = "${RoutesModel.promodetail}/{promo}",
+            arguments = listOf(
+                navArgument("promo") {
+                    type = BankPromoTypeArgs()
+                }
+            )) {
+            PromoDetailScreen(
+                navController,data = it.arguments?.getString("promo")
+                    ?.let { data -> Gson().fromJson(data, BankPromoResponse::class.java) })
         }
     }
 }
