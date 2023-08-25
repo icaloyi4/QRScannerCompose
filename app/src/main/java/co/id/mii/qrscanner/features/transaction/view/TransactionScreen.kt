@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import co.id.mii.qrscanner.core.shared.component.TopAppBarShared
 import co.id.mii.qrscanner.features.transaction.view.component.ItemTransaction
 import co.id.mii.qrscanner.features.transaction.viewmodel.TransactionViewModel
 import co.id.mii.qrscanner.ui.theme.QRScannerComposeTheme
@@ -31,11 +32,8 @@ fun TransactionScreen(navController: NavController?=null) {
     val mv : TransactionViewModel = koinViewModel()
     QRScannerComposeTheme {
         Scaffold(topBar = {
-            TopAppBar(title = { Text(text = "TransactionHistory")}, navigationIcon = {
-                Icon(imageVector = Icons.Sharp.ArrowBack, contentDescription = "back", modifier = Modifier.clickable {
-                    navController?.popBackStack()
-                })
-            })
+            TopAppBarShared(title = "Transaction History", backCallback = { navController?.popBackStack() }, bgColor = null, backIcon = true)
+
         }) {
             if(mv.loadingState.value) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {

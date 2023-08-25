@@ -1,9 +1,15 @@
+@file:OptIn(ExperimentalMaterialApi::class, ExperimentalLayoutApi::class,
+    ExperimentalLayoutApi::class
+)
+
 package co.id.mii.qrscanner
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -24,6 +30,7 @@ import org.koin.core.context.startKoin
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         startKoin{
             androidContext(this@MainActivity)
             modules(listOf(netModule, viewModelModule,apiModule,dataStoreModule,databaseModule,repositoryModule))
@@ -37,6 +44,8 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@ExperimentalLayoutApi
+@ExperimentalMaterialApi
 @Composable
 fun RootScreen() {
     val navController = rememberNavController()
@@ -48,6 +57,7 @@ fun RootScreen() {
     }
 }
 
+@ExperimentalMaterialApi
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {

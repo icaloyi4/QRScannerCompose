@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">MyMovie</string>
+    <string name="app_name">QR Code Scan</string>
+    <string name="default_notification_channel_id">TEST BNI</string>
 </resources>

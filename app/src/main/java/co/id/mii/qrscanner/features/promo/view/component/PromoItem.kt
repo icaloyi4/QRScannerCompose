@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonColors
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
@@ -24,6 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import co.id.mii.qrscanner.core.routes.RoutesModel
 import co.id.mii.qrscanner.features.promo.model.BankPromoResponse
+import co.id.mii.qrscanner.ui.theme.PrimaryOrange
+import co.id.mii.qrscanner.ui.theme.WhiteOrange
 import coil.compose.rememberAsyncImagePainter
 
 @Composable
@@ -40,8 +44,10 @@ fun PromoItem(navController: NavController, bankPromoResponse: BankPromoResponse
             )
             Divider()
             Row(modifier = Modifier.padding(10.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Start) {
-                Text(text = bankPromoResponse.nama?:"-", modifier = Modifier.fillMaxWidth().weight(1f))
-                Button(onClick = { navController.navigate("${RoutesModel.promodetail}/${bankPromoResponse.toString()}") }) {
+                Text(text = bankPromoResponse.nama?:"-", modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f))
+                Button(onClick = { navController.navigate("${RoutesModel.promodetail}/${bankPromoResponse.toString()}") }, colors = ButtonDefaults.buttonColors(backgroundColor = PrimaryOrange, contentColor = WhiteOrange)) {
                     Text(text = "Detail")
                 }
             }

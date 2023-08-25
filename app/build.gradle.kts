@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -10,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "co.id.mii.qrscanner"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -57,12 +58,15 @@ android {
 
 dependencies {
 
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
+
     // For ViewModel
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
 
     // database
     implementation("androidx.room:room-runtime:2.5.2")
+    implementation("com.google.firebase:firebase-messaging-ktx:23.2.1")
     kapt("androidx.room:room-compiler:2.5.2")
 
     //Couroutine
@@ -76,7 +80,6 @@ dependencies {
 
     implementation("com.google.accompanist:accompanist-permissions:0.23.1")
 
-    implementation("com.google.code.gson:gson:2.10.1")
 
     // Koin for Android
     val koin_version = "3.1.6"
@@ -90,6 +93,12 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.retrofit2:converter-scalars:2.4.0")
     implementation("com.google.code.gson:gson:2.10.1")
+
+    //Chart
+    implementation("co.yml:ycharts:2.1.0")
+
+    //FCM
+    implementation("com.google.firebase:firebase-messaging-ktx")
 
     implementation("androidx.navigation:navigation-compose:2.6.0")
     implementation("androidx.core:core-ktx:1.9.0")

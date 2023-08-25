@@ -21,9 +21,11 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.Clear
+import androidx.compose.material.icons.sharp.ArrowBack
 import androidx.compose.material.icons.sharp.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -41,7 +43,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import co.id.mii.qrscanner.core.routes.MenuItem
-import co.id.mii.qrscanner.ui.theme.Purple40
+import co.id.mii.qrscanner.ui.theme.PrimaryOrange
+import co.id.mii.qrscanner.ui.theme.SecondaryOrange
 import co.id.mii.qrscanner.ui.theme.labelSmall
 import co.id.mii.qrscanner.ui.theme.titleLarge
 import kotlinx.coroutines.delay
@@ -58,7 +61,8 @@ fun BottomNav(navController: NavController) {
         BottomNavigation(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 40.dp)
+                .padding(top = 40.dp),
+            backgroundColor = PrimaryOrange
         ) {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentRoute = navBackStackEntry?.destination?.route
@@ -78,7 +82,7 @@ fun BottomNav(navController: NavController) {
                         )
                     },
                     selectedContentColor = Color.White,
-                    unselectedContentColor = Color.Black.copy(0.4f),
+                    unselectedContentColor = SecondaryOrange,
                     alwaysShowLabel = true,
                     selected = currentRoute == item.screen_route,
                     onClick = {
@@ -107,9 +111,9 @@ fun BottomNav(navController: NavController) {
                 },
                 modifier = Modifier.size(75.dp),  //avoid the oval shape
                 shape = CircleShape,
-                border = BorderStroke(1.dp, Purple40),
+                border = BorderStroke(1.dp, PrimaryOrange),
                 contentPadding = PaddingValues(0.dp),  //avoid the little icon
-                colors = ButtonDefaults.outlinedButtonColors(contentColor = Purple40)
+                colors = ButtonDefaults.outlinedButtonColors(contentColor = PrimaryOrange)
             ) {
                 Icon(
                     painterResource(id = MenuItem.Payment.icon!!),
@@ -128,6 +132,18 @@ fun CloseBtnRight(onClose : ()->Unit){
     Box(contentAlignment = Alignment.TopEnd, modifier = Modifier.padding(10.dp)) {
         Icon(imageVector = Icons.Sharp.Close, contentDescription = null, tint = Color.Black, modifier = Modifier.clickable { onClose() })
     }
+}
+
+@Composable
+fun TopAppBarShared(title : String, backIcon : Boolean? = false, backCallback : () -> Unit, bgColor: Color?){
+    TopAppBar(title = { Text(text = title?:"", color = Color.White)}, backgroundColor = bgColor?: PrimaryOrange, navigationIcon = {
+        if(backIcon == true) {
+            Icon(imageVector = Icons.Sharp.ArrowBack, tint = Color.White,  contentDescription = null, modifier = Modifier.clickable {
+                backCallback()
+            })
+        }
+
+    })
 }
 
 

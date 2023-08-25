@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import co.id.mii.qrscanner.core.routes.RoutesModel
 import co.id.mii.qrscanner.core.shared.component.CloseBtnRight
 import co.id.mii.qrscanner.core.utils.numberFormat
 import co.id.mii.qrscanner.features.payment.model.TransactionModel
@@ -85,7 +86,9 @@ fun BodyTransaction(navController: NavController?, data: TransactionModel?){
 
         }
         CloseBtnRight(onClose = {
-            navController?.popBackStack()
+            navController?.navigate(RoutesModel.home){
+                popUpTo(RoutesModel.home)
+            }
         })
     }
 

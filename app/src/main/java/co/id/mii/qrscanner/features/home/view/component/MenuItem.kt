@@ -41,7 +41,7 @@ fun MenuItemComponent(icon : Int, title : String, onClick : () -> Unit){
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(painter = painterResource(id = icon), contentDescription = title, modifier = Modifier.size(50.dp))
-            Text(text = title, overflow = TextOverflow.Ellipsis, maxLines = 2, textAlign = TextAlign.Center, softWrap = true)
+            Text(text = title, overflow = TextOverflow.Ellipsis, maxLines = 2, textAlign = TextAlign.Center, softWrap = true, modifier = Modifier.weight(1f))
         }
     }
 }
@@ -50,7 +50,8 @@ fun MenuItemComponent(icon : Int, title : String, onClick : () -> Unit){
 fun HomeMenu(navController: NavController){
     val itemsMenu = listOf(
         MenuItem.Transaction,
-        MenuItem.Portofolio
+        MenuItem.Portofolio,
+        MenuItem.Notification
     )
     LazyVerticalGrid (columns = GridCells.Adaptive(minSize = 100.dp)
     ) {

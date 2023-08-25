@@ -11,4 +11,6 @@ sealed class MenuItem(var title: String, var icon: Int?, var screen_route: Strin
 
     object Home : MenuItem("Home", R.drawable.ic_home_filled, RoutesModel.home)
     object ScreenInfo : MenuItem("Screen Info", null, RoutesModel.screeninfo)
+
+    object Notification : MenuItem("Notification", R.drawable.ic_circle_notifications, RoutesModel.notification)
 }
