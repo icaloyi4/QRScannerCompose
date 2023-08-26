@@ -61,16 +61,6 @@ class MainActivity : ComponentActivity() {
         stopKoin()
     }
 
-    override fun onStop() {
-        super.onStop()
-        print("Test")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        print("Test")
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
@@ -85,7 +75,7 @@ class MainActivity : ComponentActivity() {
             // Log and toast
             val msg = token
             Log.d(TAG, msg)
-            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+//            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
         })
 
 
