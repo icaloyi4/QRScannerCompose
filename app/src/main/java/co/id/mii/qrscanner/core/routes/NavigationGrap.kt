@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
+import androidx.navigation.navigation
 import co.id.mii.qrscanner.features.home.view.HomeScreen
 import co.id.mii.qrscanner.features.notification.view.NotificationScreen
 import co.id.mii.qrscanner.features.notification.view.ResultScreen
@@ -47,14 +48,30 @@ fun NavigationGraph(navController: NavHostController) {
         composable(RoutesModel.notification) {
             NotificationScreen(navController)
         }
-        composable(RoutesModel.result+"?title={title}&transactionCode={transaction_code}", deepLinks = listOf(
-            navDeepLink {
-                uriPattern = "sample.id://transfer/result?title={title}&transactionCode={transaction_code}"
+//        composable(RoutesModel.result+"?title={title}&transactionCode={transaction_code}", deepLinks = listOf(
+//            navDeepLink {
+//                uriPattern = "sample.id://transfer/result?title={title}&transactionCode={transaction_code}"
+//            }
+//        )) {
+//            val title = it.arguments?.getString("title")
+//            val transactionCode = it.arguments?.getString("transaction_code")
+//            ResultScreen(navController,title?:"Failed",transactionCode?:"")
+//        }
+
+        navigation(
+            startDestination = RoutesModel.result+"?title={title}&transactionCode={transaction_code}",
+            route = "nested_graph_route"
+        ) {
+            composable(
+                route = RoutesModel.result+"?title={title}&transactionCode={transaction_code}",
+                deepLinks = listOf(
+                    navDeepLink { uriPattern = "sample.id://transfer/result?title={title}&transactionCode={transaction_code}" } // Note that this pattern has no relation to the route itself
+                )
+            ) {
+                val title = it.arguments?.getString("title")
+                val transactionCode = it.arguments?.getString("transaction_code")
+                ResultScreen(navController,title?:"Failed",transactionCode?:"")
             }
-        )) {
-            val title = it.arguments?.getString("argument")
-            val transactionCode = it.arguments?.getString("transaction_code")
-            ResultScreen(navController,title?:"Failed",transactionCode?:"")
         }
         composable(route = "${RoutesModel.screeninfo}/{transaction}",
             arguments = listOf(

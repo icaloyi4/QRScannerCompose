@@ -11,6 +11,9 @@ import android.net.Uri
 import android.os.Build
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.core.app.NotificationCompat
+import androidx.core.app.TaskStackBuilder
+import androidx.core.net.toUri
+import co.id.mii.qrscanner.MainActivity
 import co.id.mii.qrscanner.R
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -24,15 +27,16 @@ class NotificationService : FirebaseMessagingService() {
         }
     }
 
-    @OptIn(ExperimentalMaterialApi::class)
     private fun sendNotification(message: RemoteMessage.Notification) {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("sample.id://transfer/result?title=SUKSES&transactionCode=RF001-204"), this, NotificationService::class.java).apply {
-            addFlags(FLAG_ACTIVITY_CLEAR_TOP)
+        val intent = Intent(Intent.ACTION_VIEW, "sample.id://transfer/result?title=SUKSES&transactionCode=RF001-204".toUri(), this, MainActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         }
 
-        val pendingIntent = PendingIntent.getActivity(
-            this, 0, intent, FLAG_IMMUTABLE
-        )
+        val pending: PendingIntent? = TaskStackBuilder.create(this).run {
+            addNextIntentWithParentStack(intent)
+            getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+        }
+
 
         val channelId = this.getString(R.string.default_notification_channel_id)
 
@@ -41,7 +45,7 @@ class NotificationService : FirebaseMessagingService() {
             .setContentText(message.body)
             .setSmallIcon(R.mipmap.ic_launcher)
             .setAutoCancel(true)
-            .setContentIntent(pendingIntent)
+            .setContentIntent(pending)
 
         val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 

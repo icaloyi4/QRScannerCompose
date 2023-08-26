@@ -1,10 +1,15 @@
-@file:OptIn(ExperimentalMaterialApi::class, ExperimentalLayoutApi::class,
+@file:OptIn(
+    ExperimentalMaterialApi::class, ExperimentalLayoutApi::class,
     ExperimentalLayoutApi::class
 )
 
 package co.id.mii.qrscanner
 
+import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -24,17 +29,66 @@ import co.id.mii.qrscanner.core.injection.repositoryModule
 import co.id.mii.qrscanner.core.injection.viewModelModule
 import co.id.mii.qrscanner.core.routes.NavigationGraph
 import co.id.mii.qrscanner.ui.theme.QRScannerComposeTheme
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
 
 class MainActivity : ComponentActivity() {
+
+    override fun onStart() {
+        super.onStart()
+        print("Test")
+        startKoin {
+            androidContext(this@MainActivity)
+            modules(
+                listOf(
+                    netModule,
+                    viewModelModule,
+                    apiModule,
+                    dataStoreModule,
+                    databaseModule,
+                    repositoryModule
+                )
+            )
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        print("Test")
+        stopKoin()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        print("Test")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        print("Test")
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
 
-        startKoin{
-            androidContext(this@MainActivity)
-            modules(listOf(netModule, viewModelModule,apiModule,dataStoreModule,databaseModule,repositoryModule))
-        }
+            // Get new FCM registration token
+            val token = task.result
+
+            // Log and toast
+            val msg = token
+            Log.d(TAG, msg)
+            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+        })
+
+
         setContent {
             QRScannerComposeTheme {
                 // A surface container using the 'background' color from the theme

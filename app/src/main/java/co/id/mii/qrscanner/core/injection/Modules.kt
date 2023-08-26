@@ -9,6 +9,8 @@ import co.id.mii.qrscanner.core.network.ApiClient
 import co.id.mii.qrscanner.core.network.ApiModel
 import co.id.mii.qrscanner.features.home.repository.HomeRepository
 import co.id.mii.qrscanner.features.home.viewmodel.HomeViewModel
+import co.id.mii.qrscanner.features.notification.repository.NotificationRepository
+import co.id.mii.qrscanner.features.notification.viewmodel.NotificationViewModel
 import co.id.mii.qrscanner.features.payment.repository.PaymentRepository
 import co.id.mii.qrscanner.features.payment.viewmodel.PaymentViewModel
 import co.id.mii.qrscanner.features.portofolio.repository.PortofolioRepository
@@ -34,6 +36,7 @@ val viewModelModule = module {
     viewModel { TransactionViewModel(get()) }
     viewModel { PromoViewModel(get()) }
     viewModel { PortofolioViewModel(get()) }
+    viewModel { NotificationViewModel(get()) }
 }
 
 
@@ -134,4 +137,10 @@ val repositoryModule = module {
     }
 
     single { providePortofolioRepository() }
+
+    fun provideNotificationRepository(): NotificationRepository {
+        return NotificationRepository()
+    }
+
+    single { provideNotificationRepository() }
 }
