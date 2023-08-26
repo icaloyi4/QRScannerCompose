@@ -17,15 +17,20 @@ import androidx.lifecycle.ViewModel
 import co.id.mii.qrscanner.MainActivity
 import co.id.mii.qrscanner.R
 import co.id.mii.qrscanner.core.notification.NotificationService
+import co.id.mii.qrscanner.core.other.dummyPayloadString
+import co.id.mii.qrscanner.features.notification.model.PayloadNotificationModel
 import co.id.mii.qrscanner.features.notification.repository.NotificationRepository
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.google.gson.Gson
 import java.util.Random
 
 class NotificationViewModel(val repo : NotificationRepository) : ViewModel() {
      fun sendNotification(context : Context) {
 
-        val intent = Intent(Intent.ACTION_VIEW, "sample.id://transfer/result?title=SUKSES&transactionCode=RF001-204".toUri(), context, MainActivity::class.java).apply {
+         val payload = Gson().fromJson(dummyPayloadString, PayloadNotificationModel::class.java)
+
+        val intent = Intent(Intent.ACTION_VIEW, payload.message?.data?.deepLink?.toUri(), context, MainActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         }
 
@@ -38,8 +43,8 @@ class NotificationViewModel(val repo : NotificationRepository) : ViewModel() {
          val channelId = context.getString(R.string.default_notification_channel_id)
 
         val notificationBuilder = NotificationCompat.Builder(context, channelId)
-            .setContentTitle("Test Bosqu")
-            .setContentText("Test Ini Bosqu")
+            .setContentTitle(payload.message?.notification?.title)
+            .setContentText(payload.message?.notification?.body)
             .setSmallIcon(R.mipmap.ic_launcher)
             .setAutoCancel(true)
             .setContentIntent(pending)
