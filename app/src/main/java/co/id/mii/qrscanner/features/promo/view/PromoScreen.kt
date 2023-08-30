@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,12 +37,19 @@ fun PromoScreen(navController: NavController?=null) {
                     CircularProgressIndicator()
                 }
             } else {
-                LazyVerticalGrid(columns = GridCells.Fixed(1), ) {
-                    items(mv.listPromoState.value) {
-                        navController?.let { it1 -> PromoItem(it1,it) }
-                    }
+                if(mv.listPromoState.value.isNotEmpty()){
+                    LazyVerticalGrid(columns = GridCells.Fixed(1), ) {
+                        items(mv.listPromoState.value) {
+                            navController?.let { it1 -> PromoItem(it1,it) }
+                        }
 
+                    }
+                } else {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        Text(text = "No Promo Found This Time")
+                    }
                 }
+
             }
         }
 

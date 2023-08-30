@@ -34,7 +34,7 @@ val viewModelModule = module {
     viewModel { HomeViewModel(get()) }
     viewModel { PaymentViewModel(get()) }
     viewModel { TransactionViewModel(get()) }
-    viewModel { PromoViewModel(get()) }
+    viewModel { PromoViewModel(get(), androidContext()) }
     viewModel { PortofolioViewModel(get()) }
     viewModel { NotificationViewModel(get()) }
 }
